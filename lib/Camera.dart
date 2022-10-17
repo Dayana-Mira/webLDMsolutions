@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:web_ldmsolutions/modelos/ObtenerRespuesta.dart';
 import 'package:web_ldmsolutions/repository/IdentificadorApi.dart';
 
@@ -72,8 +73,9 @@ class TakePictureScreenState extends State<TakePictureScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor:  Color(0xB681F66D),
       appBar: AppBar(
-          backgroundColor: Color(0xff21a179),
+          backgroundColor: Color(0xB681F66D),
           title: const Text('Saca una foto')),
       // You must wait until the controller is initialized before displaying the
       // camera preview. Use a FutureBuilder to display a loading spinner until the
@@ -91,6 +93,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Color(0xFF0A310C),
         // Provide an onPressed callback.
         onPressed: () async {
           // Take the Picture in a try / catch block. If anything goes wrong,
@@ -122,7 +125,12 @@ class TakePictureScreenState extends State<TakePictureScreen> {
             print(e);
           }
         },
-        child: const Icon(Icons.camera_alt),
+        child: const Icon(Icons.camera_alt,
+          color: Color(0xFFF1F5F0),
+
+        ),
+
+
       ),
     );
   }
@@ -148,34 +156,43 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
 
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Color(0xff21a179),
+          backgroundColor: Color(0xB681F66D),
           title: const Text('ENVIAR FOTO')),
       // The image is stored as a file on the device. Use the `Image.file`
       // constructor with the given path to display the image.
-      body: Column(
-        children: [
-          Center(child: Image.memory(widget.imagePath,width: 200,height: 200,)),
-          _pitanga==null?Container():Center(child: Text("${_pitanga!.nombre}")),
-          _pitanga==null?Container():Center(child: Text("${_pitanga!.descripcion}")),
+      body: Container(
+        color: Color(0xB681F66D),
+        child: Column(
+          children: [
+            Center(child: Image.memory(widget.imagePath,width: 600,height: 400,)),
+            _pitanga==null?Container():Center(child: Text("${_pitanga!.nombre}",style: GoogleFonts.cinzel(
+                fontWeight: FontWeight.bold,
+                fontSize: 40,
+                color: Colors.black))),
+            _pitanga==null?Container():Center(child: Text("${_pitanga!.descripcion}")),
 
-          ElevatedButton(onPressed: ()async{
-            IdentificadorApi api = new IdentificadorApi();
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.green[900], // background
+                ),onPressed: ()async{
+              IdentificadorApi api = new IdentificadorApi();
 
-            dynamic pitanga=await api.EnviarFoto(widget.imagePath);
+              dynamic pitanga=await api.EnviarFoto(widget.imagePath);
 
-            if(pitanga is ObtenerRespuesta){
-              print(pitanga.toString());
-              setState((){
-                _pitanga=pitanga;
+              if(pitanga is ObtenerRespuesta){
+                print(pitanga.toString());
+                setState((){
+                  _pitanga=pitanga;
 
 
-              });
+                });
 
-            }else{
+              }else{
 
-            }
-          }, child: Text("ENVIAR"))
-        ],
+              }
+            }, child: Text("ENVIAR"))
+          ],
+        ),
       ),
     );
   }

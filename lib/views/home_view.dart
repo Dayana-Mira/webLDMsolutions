@@ -62,7 +62,7 @@ class _HomeViewState extends State<HomeView> {
                   SizedBox(height: screenHeight * 0.02),
                   subHeader('O  subir una foto', getFontSize(false)),
                   SizedBox(height: screenHeight * 0.02),
-                  subHeader('Y sabras si es pitanga', getFontSize(false)),
+                  subHeader('Y sabrás si es pitanga', getFontSize(false)),
                   SizedBox(height: screenHeight * 0.02),
                   Row(children: [
                     Padding(
@@ -91,7 +91,7 @@ class _HomeViewState extends State<HomeView> {
                         }
                             catch(e){print(e);}
 
-                      }, child: Text("TOMAR DE GALERIA")),
+                      }, child: Text("SUBIR DE GALERIA")),
                     ),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -189,7 +189,7 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  double getImageSize() {
+  double getImageSize() {//1600 800
     if (screenWidth > 1600 && screenHeight > 800) {
       return 400;
     } else if (screenWidth > 1300 && screenHeight > 600) {
@@ -208,8 +208,9 @@ class _HomeViewState extends State<HomeView> {
 
   Widget profilePicture() {
     return Container(
-      height: getImageSize(),
-      width: getImageSize(),
+
+      width: MediaQuery.of(context).size.width * 0.4,
+      height: MediaQuery.of(context).size.width * 0.2,
 
         child: new Column(children: <Widget>[
           CarouselSlider(
@@ -218,10 +219,10 @@ class _HomeViewState extends State<HomeView> {
                 aspectRatio: 18/8,
                 autoPlay: true),
             items: imgList .map((item) =>
-                Container( width: 1000, height: 800,
+                Container( width: 800, height: 600, //1000 800
                   child: Center(
                     child:
-                    Image.network(item, fit: BoxFit.cover, width: 1100),),),
+                    Image.network(item, fit: BoxFit.cover,width: 1100 ,),),),
 
             ).toList(),
 

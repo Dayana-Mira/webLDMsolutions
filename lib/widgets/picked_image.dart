@@ -2,8 +2,10 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:web_ldmsolutions/modelos/ObtenerRespuesta.dart';
 import 'package:web_ldmsolutions/repository/IdentificadorApi.dart';
+import 'package:sizer/sizer.dart';
 
 class PickedImage extends StatefulWidget {
   final Uint8List imagen;
@@ -24,38 +26,48 @@ class _PickedImageState extends State<PickedImage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Color(0xff21a179),
+      appBar: AppBar(backgroundColor: Color(0xB681F66D),
           title: const Text('ENVIAR FOTO')),
-      body: Column(
-        children: [
-          Center(child: Image.memory(widget.imagen,width: 200,height: 200,)),
-          _pitanga==null?Container():Center(child: Text("${_pitanga!.nombre}")),
-          _pitanga==null?Container():Center(child: Text("${_pitanga!.descripcion}")),
-          ElevatedButton(onPressed: ()async{
-            setState((){
-              _estaCargando=true;
-            });
+      body: Container(
+        color: Color(0xB681F66D),
+        child: Column(
+          children: [
+            Center(child: Image.memory(widget.imagen,width: 600,height: 400,)),
+            _pitanga==null?Container():Center(child: Text("${_pitanga!.nombre}",style: GoogleFonts.cinzel(
+                fontWeight: FontWeight.bold,
+                fontSize: 40,
+                color: Colors.black))),
+            _pitanga==null?Container():Center(child: Text("${_pitanga!.descripcion}")),
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.green[900], // background
+                ),onPressed: ()async{
 
-            IdentificadorApi api = new IdentificadorApi();
-
-                dynamic pitanga=await api.EnviarFoto(widget.imagen);
-
-            if(pitanga is ObtenerRespuesta){
-              print(pitanga.toString());
               setState((){
-                _pitanga=pitanga;
-                _estaCargando=false;
-
+                _estaCargando=true;
               });
 
-            }else{
-              setState((){
-                _estaCargando=false;
-              });
-            }
-            print("click");
-          }, child: Text("ENVIAR"))
-        ],
+              IdentificadorApi api = new IdentificadorApi();
+
+                  dynamic pitanga=await api.EnviarFoto(widget.imagen);
+
+              if(pitanga is ObtenerRespuesta){
+                print(pitanga.toString());
+                setState((){
+                  _pitanga=pitanga;
+                  _estaCargando=false;
+
+                });
+
+              }else{
+                setState((){
+                  _estaCargando=false;
+                });
+              }
+              print("click");
+            }, child: Text("ENVIAR"))
+          ],
+        ),
       ),
 
     );
